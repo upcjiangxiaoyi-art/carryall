@@ -37,6 +37,14 @@ async function checkForSilentExtensionUpdate() {
 }
 
 async function runSilentExtensionUpdate() {
+    // iOS fork: 不再对比原作者仓库版本(分支版本号体系不同,永远误报有更新)。
+    // 手动更新按钮仍然可用,走 ST 原生 git 更新,指向安装来源仓库。
+    applyUpdateAvailableVisualState(false);
+    return { isUpToDate: true };
+}
+
+// eslint-disable-next-line no-unused-vars
+async function runSilentExtensionUpdate_original() {
     try {
         const localVersion = CURRENT_VERSION;
 
