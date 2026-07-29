@@ -9,10 +9,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // import 宿主 ST 模块时需要算出从 dist/ 回到 ST public/ 根的相对路径。
 // `@sillytavern/scripts/xxx` -> `../../../../../scripts/xxx.js`,并标为 external,
 // ST 自身的代码不会被打进包里,运行时浏览器直接走相对路径。
-const relative_sillytavern_path = path.relative(
-  path.join(__dirname, 'dist'),
-  __dirname.substring(0, __dirname.lastIndexOf('public') + 'public'.length),
-);
+// iOS fork: 固定为标准安装位置 public/scripts/extensions/third-party/<插件>/dist/ 回到 public/ 的深度,
+// 不再依赖构建目录路径里含有 'public'(在酒馆目录外构建时原逻辑会算错层级导致加载失败)
+const relative_sillytavern_path = '../../../../..';
 
 // ST 已在全局挂载的第三方库,避免重复打包(本插件目前直接用全局 $/toastr,不 import)。
 const globals = {
